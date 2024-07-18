@@ -14,21 +14,19 @@ public class CartHistoryMapper {
 
         CartHistoryDTO cartHistoryDTO = new CartHistoryDTO();
         cartHistoryDTO.setId(cartHistory.getId());
-        cartHistoryDTO.setUserId(cartHistory.getUser().getId());
+        cartHistoryDTO.setUserId(cartHistory.getUserId());
         // No se mapea la lista de CartHistoryItem en este ejemplo
         return cartHistoryDTO;
     }
 
-    public static CartHistory toEntity(CartHistoryDTO cartHistoryDTO, UserEntityDTO userDTO) {
+    public static CartHistory toEntity(CartHistoryDTO cartHistoryDTO, Long userId) {
         if (cartHistoryDTO == null) {
             return null;
         }
 
-        UserEntity user = UserEntityMapper.toEntity(userDTO);
-
         CartHistory cartHistory = new CartHistory();
         cartHistory.setId(cartHistoryDTO.getId());
-        cartHistory.setUser(user);
+        cartHistory.setUserId(userId);
         // La lista de CartHistoryItem se mapea en el servicio
         return cartHistory;
     }

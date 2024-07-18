@@ -49,8 +49,8 @@ public class CartItemServiceImpl implements ICartItemService {
         Product product = productRepository.findById(cartItemDTO.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         CartItem cartItem = CartItemMapper.toEntity(cartItemDTO);
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
+        cartItem.setCartId(cart.getId());
+        cartItem.setProductId(product.getId());
         CartItem savedCartItem = cartItemRepository.save(cartItem);
         return CartItemMapper.toDTO(savedCartItem);
     }
@@ -66,8 +66,8 @@ public class CartItemServiceImpl implements ICartItemService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         CartItem cartItem = CartItemMapper.toEntity(cartItemDTO);
         cartItem.setId(id);
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
+        cartItem.setCartId(cart.getId());
+        cartItem.setProductId(product.getId());
         CartItem updatedCartItem = cartItemRepository.save(cartItem);
         return Optional.of(CartItemMapper.toDTO(updatedCartItem));
     }

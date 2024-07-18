@@ -18,9 +18,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @OneToMany(mappedBy = "cart")
     private List<CartItem> cartItems;

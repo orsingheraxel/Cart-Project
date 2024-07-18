@@ -34,25 +34,25 @@ public class CartHistoryServiceImpl implements ICartHistoryService {
     }
 
     @Override
-    public CartHistoryDTO createCartHistory(CartHistoryDTO cartHistoryDTO, UserEntityDTO userDTO) {
-        CartHistory cartHistory = CartHistoryMapper.toEntity(cartHistoryDTO, userDTO);
+    public CartHistoryDTO createCartHistory(CartHistoryDTO cartHistoryDTO, Long userId) {
+        CartHistory cartHistory = CartHistoryMapper.toEntity(cartHistoryDTO, userId);
         CartHistory savedCartHistory = cartHistoryRepository.save(cartHistory);
         return CartHistoryMapper.toDTO(savedCartHistory);
     }
 
     @Override
-    public Optional<CartHistoryDTO> updateCartHistory(Long id, CartHistoryDTO cartHistoryDTO, UserEntityDTO userDTO) {
-        if (!cartHistoryRepository.existsById(id)) {
-            return Optional.empty();
-        }
-        CartHistory cartHistory = CartHistoryMapper.toEntity(cartHistoryDTO, userDTO);
-        cartHistory.setId(id);
-        CartHistory updatedCartHistory = cartHistoryRepository.save(cartHistory);
-        return Optional.of(CartHistoryMapper.toDTO(updatedCartHistory));
+    public void deleteCartHistory(Long id) {
+        cartHistoryRepository.deleteById(id);
     }
 
     @Override
-    public void deleteCartHistory(Long id) {
-        cartHistoryRepository.deleteById(id);
+    public Optional<CartHistoryDTO> updateCartHistory(Long id, CartHistoryDTO cartHistoryDTO, Long userId) {
+        if (!cartHistoryRepository.existsById(id)) {
+            return Optional.empty();
+        }
+        CartHistory cartHistory = CartHistoryMapper.toEntity(cartHistoryDTO, userId);
+        cartHistory.setId(id);
+        CartHistory updatedCartHistory = cartHistoryRepository.save(cartHistory);
+        return Optional.of(CartHistoryMapper.toDTO(updatedCartHistory));
     }
 }

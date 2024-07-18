@@ -17,13 +17,11 @@ public class CartHistoryItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_history_id", nullable = false)
-    private CartHistory cartHistory;
+    @Column(name = "cart_history_id", nullable = false)
+    private Long cartHistoryId;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
 
     @Column(nullable = false)
     private Integer quantity;

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ICartHistoryItemService {
     List<CartHistoryItemDTO> getAllCartHistoryItems();
     Optional<CartHistoryItemDTO> getCartHistoryItemById(Long id);
-    CartHistoryItemDTO createCartHistoryItem(CartHistoryItemDTO cartHistoryItemDTO, ProductDTO productDTO);
-    Optional<CartHistoryItemDTO> updateCartHistoryItem(Long id, CartHistoryItemDTO cartHistoryItemDTO, ProductDTO productDTO);
+    CartHistoryItemDTO createCartHistoryItem(CartHistoryItemDTO cartHistoryItemDTO, Long productId);
+    Optional<CartHistoryItemDTO> updateCartHistoryItem(Long id, CartHistoryItemDTO cartHistoryItemDTO, Long productId);
     void deleteCartHistoryItem(Long id);
 }

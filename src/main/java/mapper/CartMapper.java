@@ -1,9 +1,8 @@
 package mapper;
 
 import dto.CartDTO;
-import dto.UserEntityDTO;
 import model.Cart;
-import model.UserEntity;
+
 
 public class CartMapper {
 
@@ -14,21 +13,18 @@ public class CartMapper {
 
         CartDTO cartDTO = new CartDTO();
         cartDTO.setId(cart.getId());
-        cartDTO.setUserId(cart.getUserId().getId());
-        // No se mapea la lista de CartItem en este ejemplo
+        cartDTO.setUserId(cart.getUserId());
         return cartDTO;
     }
 
-    public static Cart toEntity(CartDTO cartDTO, UserEntityDTO userDTO) {
+    public static Cart toEntity(CartDTO cartDTO, Long userId) {
         if (cartDTO == null) {
             return null;
         }
 
-        UserEntity user = UserEntityMapper.toEntity(userDTO);
-
         Cart cart = new Cart();
         cart.setId(cartDTO.getId());
-        cart.setUserId(user);
+        cart.setUserId(userId);
         // La lista de CartItem se mapea en el servicio
         return cart;
     }

@@ -12,27 +12,23 @@ public class CartHistoryItemMapper {
             return null;
         }
 
-        Product product = cartHistoryItem.getProduct();
-
         CartHistoryItemDTO cartHistoryItemDTO = new CartHistoryItemDTO();
         cartHistoryItemDTO.setId(cartHistoryItem.getId());
-        cartHistoryItemDTO.setProductId(product.getId());
+        cartHistoryItemDTO.setProductId(cartHistoryItemDTO.getProductId());
         cartHistoryItemDTO.setQuantity(cartHistoryItem.getQuantity());
         cartHistoryItemDTO.setPriceAtPurchase(cartHistoryItem.getPriceAtPurchase());
         cartHistoryItemDTO.setCreatedAt(cartHistoryItem.getCreatedAt());
         return cartHistoryItemDTO;
     }
 
-    public static CartHistoryItem toEntity(CartHistoryItemDTO cartHistoryItemDTO, ProductDTO productDTO) {
+    public static CartHistoryItem toEntity(CartHistoryItemDTO cartHistoryItemDTO, Long productId) {
         if (cartHistoryItemDTO == null) {
             return null;
         }
 
-        Product product = ProductMapper.toEntity(productDTO);
-
         CartHistoryItem cartHistoryItem = new CartHistoryItem();
         cartHistoryItem.setId(cartHistoryItemDTO.getId());
-        cartHistoryItem.setProduct(product);
+        cartHistoryItem.setProductId(productId);
         cartHistoryItem.setQuantity(cartHistoryItemDTO.getQuantity());
         cartHistoryItem.setPriceAtPurchase(cartHistoryItemDTO.getPriceAtPurchase());
         cartHistoryItem.setCreatedAt(cartHistoryItemDTO.getCreatedAt());

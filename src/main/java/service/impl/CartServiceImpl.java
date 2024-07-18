@@ -39,18 +39,18 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public CartDTO createCart(CartDTO cartDTO, UserEntityDTO userDTO) {
-        Cart cart = CartMapper.toEntity(cartDTO, userDTO);
+    public CartDTO createCart(CartDTO cartDTO, Long userId) {
+        Cart cart = CartMapper.toEntity(cartDTO, userId);
         Cart savedCart = cartRepository.save(cart);
         return CartMapper.toDTO(savedCart);
     }
 
     @Override
-    public Optional<CartDTO> updateCart(Long id, CartDTO cartDTO, UserEntityDTO userDTO) {
+    public Optional<CartDTO> updateCart(Long id, CartDTO cartDTO, Long userId) {
         if (!cartRepository.existsById(id)) {
             return Optional.empty();
         }
-        Cart cart = CartMapper.toEntity(cartDTO, userDTO);
+        Cart cart = CartMapper.toEntity(cartDTO, userId);
         cart.setId(id);
         Cart updatedCart = cartRepository.save(cart);
         return Optional.of(CartMapper.toDTO(updatedCart));

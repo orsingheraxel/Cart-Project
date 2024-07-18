@@ -3,19 +3,25 @@ package controller;
 import dto.CartDTO;
 import dto.UserEntityDTO;
 import model.UserEntity;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.ICartService;
+import service.IUserEntityService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carts")
 public class CartController {
     @Autowired
     private ICartService cartService;
+
+    @Autowired
+    private IUserEntityService userEntityService;
 
     @GetMapping
     public ResponseEntity<List<CartDTO>> getAllCarts() {
@@ -32,16 +38,19 @@ public class CartController {
 
     @PostMapping("/{userId}")
     public ResponseEntity<CartDTO> createCart(@RequestBody CartDTO cartDTO, @PathVariable Long userId) {
-        UserEntityDTO userDTO = new UserEntityDTO();
-        userDTO.setId(userId);
-        CartDTO createdCart = cartService.createCart(cartDTO, userDTO);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        CartDTO createdCart = cartService.createCart(cartDTO, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCart);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CartDTO> updateCart(@PathVariable("id") Long id, @RequestBody CartDTO cartDTO, @PathVariable Long userId) {
-
-        return cartService.updateCart(id, cartDTO)
+    public ResponseEntity<CartDTO> updateCart(@PathVariable Long cartId, @RequestBody CartDTO cartDTO, @PathVariable Long userId) {
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return cartService.updateCart(cartId, cartDTO, userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -82,6 +82,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.12.5</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -109,7 +114,41 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+
+			<plugin>
+				<groupId>cz.habarta.typescript-generator</groupId>
+				<artifactId>typescript-generator-maven-plugin</artifactId>
+				<version>3.2.1263</version> <!-- Asegúrate de usar la versión correcta -->
+				<executions>
+					<execution>
+						<id>generate-typescript</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<!-- Define el tipo de salida como TypeScript -->
+							<outputKind>module</outputKind>
+							<!-- Ruta del archivo de salida -->
+							<outputFile>src/main/z.dto.like.ts/src/app/models.d.ts</outputFile>
+							<!-- Biblioteca JSON a usar -->
+							<jsonLibrary>jackson2</jsonLibrary>
+							<!-- Clases DTO a convertir -->
+							<classes>
+								<class>dto.UserEntityDTO</class>
+								<class>dto.ProductDTO</class>
+								<class>dto.CartDTO</class>
+								<class>dto.CartItemDTO</class>
+								<class>dto.CartHistoryItemDTO</class>
+								<class>dto.CartHistoryDTO</class>
+							</classes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
+
 	</build>
 
 </project>

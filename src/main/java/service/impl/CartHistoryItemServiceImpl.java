@@ -1,10 +1,9 @@
 package service.impl;
 
 import dto.CartHistoryItemDTO;
-import dto.ProductDTO;
 import mapper.CartHistoryItemMapper;
-import model.CartHistory;
 import model.CartHistoryItem;
+import model.CartHistory;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import persistence.ICartHistoryItemRepository;
 import persistence.ICartHistoryRepository;
 import persistence.IProductRepository;
 import service.ICartHistoryItemService;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +44,11 @@ public class CartHistoryItemServiceImpl implements ICartHistoryItemService {
     public CartHistoryItemDTO createCartHistoryItem(CartHistoryItemDTO cartHistoryItemDTO, Long productId) {
         CartHistory cartHistory = cartHistoryRepository.findById(cartHistoryItemDTO.getCartHistoryId())
                 .orElseThrow(() -> new RuntimeException("CartHistory not found"));
-        Product product = productRepository.findById(cartHistoryItemDTO.getProductId())
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        CartHistoryItem cartHistoryItem = CartHistoryItemMapper.toEntity(cartHistoryItemDTO,productId);
+        CartHistoryItem cartHistoryItem = CartHistoryItemMapper.toEntity(cartHistoryItemDTO, productId);
         cartHistoryItem.setCartHistoryId(cartHistory.getId());
-        cartHistoryItem.setProductId(productId);
+        cartHistoryItem.setProductId(product.getId());
         CartHistoryItem savedCartHistoryItem = cartHistoryItemRepository.save(cartHistoryItem);
         return CartHistoryItemMapper.toDTO(savedCartHistoryItem);
     }
@@ -62,12 +60,12 @@ public class CartHistoryItemServiceImpl implements ICartHistoryItemService {
         }
         CartHistory cartHistory = cartHistoryRepository.findById(cartHistoryItemDTO.getCartHistoryId())
                 .orElseThrow(() -> new RuntimeException("CartHistory not found"));
-        Product product = productRepository.findById(cartHistoryItemDTO.getProductId())
+        Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         CartHistoryItem cartHistoryItem = CartHistoryItemMapper.toEntity(cartHistoryItemDTO, productId);
         cartHistoryItem.setId(id);
         cartHistoryItem.setCartHistoryId(cartHistory.getId());
-        cartHistoryItem.setProductId(productId);
+        cartHistoryItem.setProductId(product.getId());
         CartHistoryItem updatedCartHistoryItem = cartHistoryItemRepository.save(cartHistoryItem);
         return Optional.of(CartHistoryItemMapper.toDTO(updatedCartHistoryItem));
     }

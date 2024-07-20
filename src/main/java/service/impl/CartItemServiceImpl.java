@@ -1,7 +1,6 @@
 package service.impl;
 
 import dto.CartItemDTO;
-
 import mapper.CartItemMapper;
 import model.Cart;
 import model.CartItem;
@@ -12,7 +11,6 @@ import persistence.ICartItemRepository;
 import persistence.ICartRepository;
 import persistence.IProductRepository;
 import service.ICartItemService;
-
 
 import java.util.List;
 import java.util.Optional;

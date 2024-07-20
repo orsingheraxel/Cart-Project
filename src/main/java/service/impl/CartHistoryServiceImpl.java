@@ -1,10 +1,8 @@
 package service.impl;
 
 import dto.CartHistoryDTO;
-import dto.UserEntityDTO;
 import mapper.CartHistoryMapper;
 import model.CartHistory;
-import model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.ICartHistoryRepository;
@@ -26,7 +24,6 @@ public class CartHistoryServiceImpl implements ICartHistoryService {
                 .collect(Collectors.toList());
     }
 
-
     @Override
     public Optional<CartHistoryDTO> getCartHistoryById(Long id) {
         return cartHistoryRepository.findById(id)
@@ -41,11 +38,6 @@ public class CartHistoryServiceImpl implements ICartHistoryService {
     }
 
     @Override
-    public void deleteCartHistory(Long id) {
-        cartHistoryRepository.deleteById(id);
-    }
-
-    @Override
     public Optional<CartHistoryDTO> updateCartHistory(Long id, CartHistoryDTO cartHistoryDTO, Long userId) {
         if (!cartHistoryRepository.existsById(id)) {
             return Optional.empty();
@@ -54,5 +46,10 @@ public class CartHistoryServiceImpl implements ICartHistoryService {
         cartHistory.setId(id);
         CartHistory updatedCartHistory = cartHistoryRepository.save(cartHistory);
         return Optional.of(CartHistoryMapper.toDTO(updatedCartHistory));
+    }
+
+    @Override
+    public void deleteCartHistory(Long id) {
+        cartHistoryRepository.deleteById(id);
     }
 }

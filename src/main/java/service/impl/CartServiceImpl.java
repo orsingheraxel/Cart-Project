@@ -1,17 +1,15 @@
 package service.impl;
 
 import dto.CartDTO;
-
-import dto.UserEntityDTO;
+import dto.CartItemDTO;
 import mapper.CartMapper;
 import model.Cart;
-import model.UserEntity;
+import model.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.ICartRepository;
-import persistence.IUserEntityRepository;
+import persistence.ICartItemRepository;
 import service.ICartService;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -23,19 +21,33 @@ public class CartServiceImpl implements ICartService {
     private ICartRepository cartRepository;
 
     @Autowired
-    private IUserEntityRepository userRepository;
+    private ICartItemRepository cartItemRepository;
 
     @Override
     public List<CartDTO> getAllCarts() {
         return cartRepository.findAll().stream()
-                .map(CartMapper::toDTO)
+                .map(cart -> {
+                    CartDTO cartDTO = CartMapper.toDTO(cart);
+                    List<CartItemDTO> cartItemDTOs = cart.getCartItems().stream()
+                            .map(CartMapper::toCartItemDTO)
+                            .collect(Collectors.toList());
+                    cartDTO.setCartItems(cartItemDTOs);
+                    return cartDTO;
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
     public Optional<CartDTO> getCartById(Long id) {
         return cartRepository.findById(id)
-                .map(CartMapper::toDTO);
+                .map(cart -> {
+                    CartDTO cartDTO = CartMapper.toDTO(cart);
+                    List<CartItemDTO> cartItemDTOs = cart.getCartItems().stream()
+                            .map(CartMapper::toCartItemDTO)
+                            .collect(Collectors.toList());
+                    cartDTO.setCartItems(cartItemDTOs);
+                    return cartDTO;
+                });
     }
 
     @Override

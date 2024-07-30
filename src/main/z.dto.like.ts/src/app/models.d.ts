@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 3.2.1263 on 2024-07-21 19:25:16.
+// Generated using typescript-generator version 3.2.1263 on 2024-07-30 18:18:19.
 
-export interface UserEntityDTO {
+export interface UserDTO {
     id: number;
     username: string;
     email: string;

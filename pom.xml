@@ -150,7 +150,7 @@
 							<jsonLibrary>jackson2</jsonLibrary>
 							<!-- Clases DTO a convertir -->
 							<classes>
-								<class>dto.UserEntityDTO</class>
+								<class>dto.UserDTO</class>
 								<class>dto.ProductDTO</class>
 								<class>dto.CartDTO</class>
 								<class>dto.CartItemDTO</class>

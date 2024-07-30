@@ -1,9 +1,7 @@
 package mapper;
 
 import dto.CartHistoryDTO;
-import dto.UserEntityDTO;
 import model.CartHistory;
-import model.UserEntity;
 
 public class CartHistoryMapper {
 

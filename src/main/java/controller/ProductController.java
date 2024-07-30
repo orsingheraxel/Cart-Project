@@ -3,6 +3,7 @@ package controller;
 import dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.web.bind.annotation.*;
 import service.IProductService;
 
@@ -11,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-
     @Autowired
     private IProductService productService;
 

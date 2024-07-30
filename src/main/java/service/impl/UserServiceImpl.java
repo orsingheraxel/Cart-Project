@@ -1,54 +1,54 @@
 package service.impl;
 
-import dto.UserEntityDTO;
-import mapper.UserEntityMapper;
+import dto.UserCreationDTO;
+import dto.UserDTO;
+import mapper.UserMapper;
 import model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import persistence.IUserEntityRepository;
-import service.IUserEntityService;
+import persistence.IUserRepository;
+import service.IUserService;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class
-UserEntityServiceImpl implements IUserEntityService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
-    private IUserEntityRepository userRepository;
+    private IUserRepository userRepository;
 
     @Override
-    public List<UserEntityDTO> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(UserEntityMapper::toDTO)
+                .map(UserMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<UserEntityDTO> getUserById(Long id) {
+    public Optional<UserDTO> getUserById(Long id) {
         return userRepository.findById(id)
-                .map(UserEntityMapper::toDTO);
+                .map(UserMapper::toDTO);
     }
 
     @Override
-    public UserEntityDTO createUser(UserEntityDTO userDTO) {
-        UserEntity user = UserEntityMapper.toEntity(userDTO);
+    public UserCreationDTO createUser(UserCreationDTO userCreationDTO) {
+        UserEntity user = UserMapper.toCreationEntity(userCreationDTO);
         UserEntity savedUser = userRepository.save(user);
-        return UserEntityMapper.toDTO(savedUser);
+        return UserMapper.toUserCreationDTO(savedUser);
     }
 
     @Override
-    public Optional<UserEntityDTO> updateUser(Long id, UserEntityDTO userDTO) {
+    public Optional<UserDTO> updateUser(Long id, UserDTO userDTO) {
         if (!userRepository.existsById(id)) {
             return Optional.empty();
         }
 
-        UserEntity user = UserEntityMapper.toEntity(userDTO);
+        UserEntity user = UserMapper.updateEntity(userDTO, new UserEntity());
         user.setId(id);
         UserEntity updatedUser = userRepository.save(user);
-        return Optional.of(UserEntityMapper.toDTO(updatedUser));
+        return Optional.of(UserMapper.toDTO(updatedUser));
     }
 
     @Override

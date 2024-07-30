@@ -1,7 +1,6 @@
 package service;
 
 import dto.CartDTO;
-import dto.UserEntityDTO;
 
 import java.util.List;
 import java.util.Optional;

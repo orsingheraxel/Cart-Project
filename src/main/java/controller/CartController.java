@@ -1,18 +1,14 @@
 package controller;
 
 import dto.CartDTO;
-import dto.UserEntityDTO;
-import model.UserEntity;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.ICartService;
-import service.IUserEntityService;
+import service.IUserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carts")
@@ -21,7 +17,7 @@ public class CartController {
     private ICartService cartService;
 
     @Autowired
-    private IUserEntityService userEntityService;
+    private IUserService userEntityService;
 
     @GetMapping
     public ResponseEntity<List<CartDTO>> getAllCarts() {

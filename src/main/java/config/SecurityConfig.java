@@ -1,5 +1,7 @@
 package config;
 
+import config.filter.JwtTokenValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,14 +19,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import service.impl.UserDetailsServiceImpl;
+import utils.JwtUtils;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig  {
 
-    //aca van los filtros
+    //FILTROS
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws  Exception {
         return httpSecurity
@@ -34,16 +38,17 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtUtils(), BasicAuthenticationFilter.class)
                 .build();
     }
 
-    //administrador de proveedores
+    //ADMINISTRADOR DE PROVEEDORES
     @Bean
     public AuthenticationManager authenticationManager (AuthenticationConfiguration authenticationConfiguration) throws  Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    //proveedor 1
+    //PROVEEDOR 1
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -53,16 +58,21 @@ public class SecurityConfig  {
     }
 
     @Bean
+    public JwtTokenValidator jwtUtils(){
+        return new JwtTokenValidator(new JwtUtils());
+    }
+
+    @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    //PARA VER SI LA CONTRASENIA ES SEGURA
     @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker() {
         return new HaveIBeenPwnedRestApiPasswordChecker();
